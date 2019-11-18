@@ -414,7 +414,8 @@ public class PnlNuevaOrden extends javax.swing.JPanel {
        nuevaOrden.setInspector(this.txtInspector.getText());
        nuevaOrden.setTipo(this.cbTipo.getSelectedItem().toString());
        nuevaOrden.setMotivoCorte(this.txtaMotivo.getText());
-       
+       nuevaOrden.setFecha(this.dcFechaRegistro.getCalendar().getTime());
+
        if(this.esOrdenNueva)
        {
            int grabar = nuevaOrden.grabar();

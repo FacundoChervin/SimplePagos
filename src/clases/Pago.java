@@ -2,6 +2,7 @@ package clases;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -174,50 +175,52 @@ public class Pago {
     public static ArrayList<Pago> getPagos(){
         ResultSet pagos = Conexion.getRegistros(Pago.SELECCIONAR_TODO);
         ArrayList<Pago> ListaPagos= new ArrayList();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
          try{
             while(pagos.next())
             {
                 Pago pago = new Pago();
                 pago.setClvFolio(pagos.getInt(1));
                 pago.setNroCuenta(Cliente.getCliente(pagos.getInt(2)));
-                pago.setFechaCubierta(pagos.getDate(3));
+                pago.setFechaCubierta(simpleDateFormat.parse(pagos.getString(3)));
                 pago.setMesesTranscurridos(pagos.getInt(4));
-                pago.setFechaDePago(pagos.getDate(5));
+                pago.setFechaDePago(simpleDateFormat.parse(pagos.getString(5)));
                 pago.setRezago(pagos.getDouble(6));
                 pago.setPagoCalculado(pagos.getDouble(7));
                 pago.setRecargo(pagos.getDouble(8));
                 pago.setTotal(pagos.getDouble(9));
-                pago.setFechaDeRegistro(pagos.getDate(10));
+                pago.setFechaDeRegistro(simpleDateFormat.parse(pagos.getString(10)));
                 ListaPagos.add(pago);
             }
             pagos.close();
             Conexion.con.close();
-        }catch(SQLException ex){ex.printStackTrace();}
+        }catch(SQLException | ParseException ex){ex.printStackTrace();}
         return ListaPagos;
     }
     
     public static ArrayList<Pago> getPagos(String fechaInicio, String FechaFinal){
         ResultSet pagos = Conexion.getRegistros(Pago.SELECCIONAR_TODO+" where FechaDeRegistro >= '"+fechaInicio+"' and FechaDeRegistro<='"+FechaFinal+"'");
         ArrayList<Pago> ListaPagos= new ArrayList();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
          try{
             while(pagos.next())
             {
                 Pago pago = new Pago();
                 pago.setClvFolio(pagos.getInt(1));
                 pago.setNroCuenta(Cliente.getCliente(pagos.getInt(2)));
-                pago.setFechaCubierta(pagos.getDate(3));
+                pago.setFechaCubierta(simpleDateFormat.parse(pagos.getString(3)));
                 pago.setMesesTranscurridos(pagos.getInt(4));
-                pago.setFechaDePago(pagos.getDate(5));
+                pago.setFechaDePago(simpleDateFormat.parse(pagos.getString(5)));
                 pago.setRezago(pagos.getDouble(6));
                 pago.setPagoCalculado(pagos.getDouble(7));
                 pago.setRecargo(pagos.getDouble(8));
                 pago.setTotal(pagos.getDouble(9));
-                pago.setFechaDeRegistro(pagos.getDate(10));
+                pago.setFechaDeRegistro(simpleDateFormat.parse(pagos.getString(10)));
                 ListaPagos.add(pago);
             }
             pagos.close();
             Conexion.con.close();
-        }catch(SQLException ex){ex.printStackTrace();}
+        }catch(SQLException | ParseException ex){ex.printStackTrace();}
         return ListaPagos;
     }
     

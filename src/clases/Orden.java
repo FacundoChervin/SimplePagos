@@ -2,6 +2,7 @@ package clases;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -108,15 +109,15 @@ public class Orden {
           sdf = new SimpleDateFormat(formato);  
         return sdf.format(fecha);
     }
-    
+
     public int grabar()
     {
         String sql = "INSERT INTO tblorden ("+
-             "Fecha,NoCuenta,"+
-             "Tipo, Inspector,MotivoCorte)"+
-            "VALUES ('"+this.getFormatearFecha(this.fecha,null)+"',"+
-                    this.cliente.getNumeroCuenta()+",'"+this.tipo+"',"+
-                    "'"+this.inspector+"','"+this.motivoCorte+"')";
+                "Fecha,NoCuenta,"+
+                "Tipo, Inspector,MotivoCorte)"+
+                "VALUES ('"+this.getFormatearFecha( this.fecha,null )+"',"+
+                this.cliente.getNumeroCuenta()+",'"+this.tipo+"',"+
+                "'"+this.inspector+"','"+this.motivoCorte+"')";
         return Conexion.guardarRegistro(sql);
     }
 
@@ -139,12 +140,13 @@ public class Orden {
     public static ArrayList<Orden> getOrdenes(){
         ResultSet ordenes = Conexion.getRegistros(Orden.SELECCIONAR_TODO);
         ArrayList<Orden> ListaOrdenes= new ArrayList();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
          try{
             while(ordenes.next())
             {
                 Orden orden = new Orden();
                 orden.setNroOrden(ordenes.getInt(1));
-                orden.setFecha(ordenes.getDate(2));
+                orden.setFecha(simpleDateFormat.parse(ordenes.getString(2)));
                 orden.setCliente(Cliente.getCliente(ordenes.getInt(3)));
                 orden.setTipo(ordenes.getString(4));
                 orden.setInspector(ordenes.getString(5));
@@ -154,7 +156,7 @@ public class Orden {
             }
             ordenes.close();
             Conexion.con.close();
-        }catch(SQLException ex){ex.printStackTrace();}
+        }catch(SQLException | ParseException ex){ex.printStackTrace();}
         return ListaOrdenes;
     }
     
@@ -175,12 +177,13 @@ public class Orden {
         
         ResultSet ordenes = Conexion.getRegistros(Orden.SELECCIONAR_TODO+" where Fecha between '"+fechaInicia+"' and '"+fechaFinal+"'"+idClientes);
         ArrayList<Orden> ListaOrdenes= new ArrayList();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
          try{
             while(ordenes.next())
             {
                 Orden orden = new Orden();
                 orden.setNroOrden(ordenes.getInt(1));
-                orden.setFecha(ordenes.getDate(2));
+                orden.setFecha(simpleDateFormat.parse(ordenes.getString(2)));
                 orden.setCliente(Cliente.getCliente(ordenes.getInt(3)));
                 orden.setTipo(ordenes.getString(4));
                 orden.setInspector(ordenes.getString(5));
@@ -190,7 +193,7 @@ public class Orden {
             }
             ordenes.close();
             Conexion.con.close();
-        }catch(SQLException ex){ex.printStackTrace();}
+        }catch(SQLException | ParseException ex){ex.printStackTrace();}
         return ListaOrdenes;
     }
     

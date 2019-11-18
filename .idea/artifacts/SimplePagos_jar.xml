@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="SimplePagos:jar">
+    <output-path>$PROJECT_DIR$</output-path>
+    <root id="archive" name="SimplePagos.jar">
+      <element id="module-output" name="SimplePagos" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/librerias usadas en este proyecto/jxl.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/librerias usadas en este proyecto/jcalendar-1.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/dist/lib/mysql-connector-java-8.0.17.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/sqlite/java/connect/sqlite-jdbc-3.27.2.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/dist/lib/jcalendar-1.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/dist/lib/jxl.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/jxl.jar" path-in-jar="/" />
+      <element id="file-copy" path="D:/sqlite/java/connect/sqlite-jdbc-3.27.2.1.jar" />
+    </root>
+  </artifact>
+</component>

@@ -2,6 +2,7 @@ package clases;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -191,6 +192,7 @@ public class Cliente {
     
     public static ArrayList<Cliente> getClientes(){
         ResultSet clientes = Conexion.getRegistros(Cliente.SELECCIONAR_TODO);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd"); //agregue esto
         ArrayList<Cliente> ListaClientes= new ArrayList();
          try{
             while(clientes.next())
@@ -206,12 +208,13 @@ public class Cliente {
                 cliente.setMunicipio(clientes.getString(8));
                 cliente.setCodigoPostal(clientes.getString(9));
                 cliente.setTarifa(clientes.getString(10));
-                cliente.setFechaRegistro(clientes.getDate(11));
+                //cliente.setFechaRegistro(clientes.getDate(11));
+                cliente.setFechaRegistro(simpleDateFormat.parse(clientes.getString(11)));
                 ListaClientes.add(cliente);
             }
             clientes.close();
             Conexion.con.close();
-        }catch(SQLException ex){ex.printStackTrace();}
+        }catch(SQLException | ParseException ex){ex.printStackTrace();}
         return ListaClientes;
     }
     
@@ -219,6 +222,7 @@ public class Cliente {
     {
         ResultSet clientes = Conexion.getRegistros(Cliente.SELECCIONAR_TODO+" where Nombre like '"+nombre+"%'");
         ArrayList<Cliente> ListaClientes= new ArrayList();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
          try{
             while(clientes.next())
             {
@@ -233,12 +237,12 @@ public class Cliente {
                 cliente.setMunicipio(clientes.getString(8));
                 cliente.setCodigoPostal(clientes.getString(9));
                 cliente.setTarifa(clientes.getString(10));
-                cliente.setFechaRegistro(clientes.getDate(11));
+                cliente.setFechaRegistro(simpleDateFormat.parse(clientes.getString(11)));
                 ListaClientes.add(cliente);
             }
             clientes.close();
             Conexion.con.close();
-        }catch(SQLException ex){ex.printStackTrace();}
+        }catch(SQLException | ParseException ex){ex.printStackTrace();}
          if(ListaClientes.size()>0)
             return ListaClientes;
          return null;
@@ -248,6 +252,7 @@ public class Cliente {
     {
         ResultSet clientes = Conexion.getRegistros(Cliente.SELECCIONAR_TODO+" where NoCuenta = "+idCliente);
         Cliente cliente = null;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         try{
             while(clientes.next())
             {
@@ -262,11 +267,11 @@ public class Cliente {
                 cliente.setMunicipio(clientes.getString(8));
                 cliente.setCodigoPostal(clientes.getString(9));
                 cliente.setTarifa(clientes.getString(10));
-                cliente.setFechaRegistro(clientes.getDate(11));                
+                cliente.setFechaRegistro(simpleDateFormat.parse(clientes.getString(11)));
             }
             clientes.close();
             Conexion.con.close();
-        }catch(SQLException ex){ex.printStackTrace();}
+        }catch(SQLException | ParseException ex){ex.printStackTrace();}
          
          return cliente;
     }
